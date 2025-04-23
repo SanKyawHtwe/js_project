@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f1f3f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .left {
+      flex: 1;
+      padding: 40px;
+      background-color: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .left h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .left p {
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .left img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .right {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    form {
+      width: 100%;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    input:focus {
+      border-color: #2962ff;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2962ff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0039cb;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .left, .right {
+        width: 100%;
+      }
+
+      .left {
+        align-items: center;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" x-data="loginForm">
+    <div class="left">
+      <h2>Welcome!</h2>
+      <p>Please login to continue.</p>
+      <img src="https://retail.nbgsoftware.com/img1.png" alt="Illustration">
+    </div>
+    
+    <div class="right">
+      <form method="post" action="/login" @submit.prevent="loginForm()">
+        <label for="email">User Name</label>
+        <input type="email" id="email" placeholder="name@example.com" x-model="email" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" x-model="password" required>
+        <button type="submit">Log in</button>
+      </form>
+    </div>
+    
+    
+  </div>
+  <script>
+    document.addEventListener("alpine:init", () => {
+      Alpine.data("loginForm", () => ({
+        email: "",
+        password: "",
+        loginForm() {
+          console.log("this is loginForm");
+          const formData = new FormData();
+          formData.append("email", this.email);
+          formData.append("password", this.password);
+
+          fetch("/login", {
+            method: "POST",
+            body: formData,
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              console.log(data);
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch(error => {
+            console.error("Error:", error);
+          });
+        },
+      }));
+    });
+    
+  </script>
+</body>
+</html>

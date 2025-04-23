@@ -1,0 +1,20 @@
+{
+  "name": "jsprojects",
+  "version": "1.0.0",
+  "description": "test",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "peter",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^5.13.23",
+    "nodemon": "^3.1.9",
+    "sweetalert2": "^11.17.2"
+  }
+}

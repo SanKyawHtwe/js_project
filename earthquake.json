@@ -1,0 +1,166 @@
+{
+  "earthquake": [
+    {
+      "id": "1",
+      "location": "San Francisco",
+      "magnitude": 6,
+      "date": "2025-03-29"
+    },
+    {
+      "id": "2",
+      "location": "Los Angeles",
+      "magnitude": 6.5,
+      "date": "2025-03-29"
+    },
+    {
+      "id": "3",
+      "location": "San Diego",
+      "magnitude": 5.5,
+      "date": "2025-03-29"
+    },
+    {
+      "id": "4",
+      "location": "San Diego",
+      "magnitude": 5.5,
+      "date": "2025-03-29"
+    },
+    {
+      "id": "5",
+      "location": "Sagaing",
+      "magnitude": 7.7,
+      "date": "2025-03-28"
+    },
+    {
+      "id": "6",
+      "location": "Mandalay",
+      "magnitude": 6.5,
+      "date": "2025-03-28"
+    },
+    {
+      "id": "7",
+      "location": "Yangon",
+      "magnitude": 5.5,
+      "date": "2025-03-28"
+    },
+    {
+      "id": "8",
+      "location": "Naypyitaw",
+      "magnitude": 5.5,
+      "date": "2025-03-28"
+    },
+    {
+      "id": "9",
+      "location": "Bago",
+      "magnitude": 5.5,
+      "date": "2025-03-28"
+    },
+    {
+      "id": "10",
+      "location": "Taunggyi",
+      "magnitude": 5.5,
+      "date": "2025-03-28"
+    },
+    {
+      "id": "11",
+      "location": "Mawlamyine",
+      "magnitude": 5.5,
+      "date": "2025-03-28"
+    },
+    {
+      "id": "12",
+      "location": "Mawlamyine",
+      "magnitude": 5.5,
+      "date": "2025-03-28"
+    },
+    {
+      "location": "Indonestia",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743343806963
+    },
+    {
+      "location": "Indonestia",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743343810771
+    },
+    {
+      "location": "Indonestia",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743343811746
+    },
+    {
+      "location": "Indonestia",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743344081249
+    },
+    {
+      "location": "Indonestia",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743345750232
+    },
+    {
+      "location": "Indonestia",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743497435188
+    },
+    {
+      "location": "Indonestia",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743497459626
+    },
+    {
+      "location": "Indonestia1",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743497542213
+    },
+    {
+      "location": "Indonestia2",
+      "magnitude": 3.5,
+      "date": "30-5-2025",
+      "id": 1743497542214
+    },
+    {
+      "location": "Indonestia3",
+      "magnitude": 2.5,
+      "date": "30-5-2025",
+      "id": 1743497542215
+    },
+    {
+      "location": "Indonestia4",
+      "magnitude": 1.5,
+      "date": "30-5-2025",
+      "id": 1743497542216
+    },
+    {
+      "location": "Indonestia5",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743497542217
+    },
+    {
+      "location": "Indonestia6",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743497542218
+    },
+    {
+      "location": "Indonestia7",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743497542219
+    },
+    {
+      "location": "Indonestia8",
+      "magnitude": 5.5,
+      "date": "30-5-2025",
+      "id": 1743497542220
+    }
+  ]
+}
