@@ -80,5 +80,39 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.get('/api/students', async (req, res) => {
+  const students = await Student.find();
+  res.json(students);
+});
 
-app.listen(process.env.PORT, () => console.log('Server started: http://localhost:3000'));
+app.post('/api/students', async (req, res) => {
+  const { name, email, phone, course, batch } = req.body;
+
+  if (!name || !email || !phone || !course || !batch) {
+    return res.status(400).json({ success: false, message: "All fields are required." });
+  }
+
+  try {
+    const existingStudent = await Student.findOne({ $or: [{ email }, { phone }] });
+    if (existingStudent) {
+      return res.status(400).json({ success: false, message: "Email or phone already registered." });
+    }
+
+    const newStudent = new Student({
+      name,
+      email,
+      phone,
+      course,
+      batch,
+    });
+
+    await newStudent.save();
+
+    res.status(201).json({ success: true, message: "Student added successfully.", student: newStudent });
+  } catch (error) {
+    console.error("Error adding student:", error);
+    res.status(500).json({ success: false, message: "Server error while adding student." });
+  }
+});
+
+app.listen(process.env.PORT, () => console.log('Server running on port', process.env.PORT));
