@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New Enrollment Information</title>
+  <script src="https://unpkg.com/alpinejs@3.x.x" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-6">
+  <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8" 
+       x-data="{
+        formData: {
+          fullName: '', email: '', phone: '',
+          guardianName: '', guardianEmail: '', guardianPhone: '',
+          referral: '', referralName: '', referralEmail: '', referralPhone: ''
+        },
+        sameAsStudent: false,
+        referralSources: [
+          { id: 'source1', name: 'Option 1' },
+          { id: 'source2', name: 'Option 2' },
+          { id: 'source3', name: 'Option 3' },
+          { id: 'new', name: 'Add New Referral' }
+        ],
+        get newReferral() {
+          return this.formData.referral === 'new';
+        },
+        addReferralSource() {
+          const newId = 'custom-' + Date.now();
+          this.referralSources.splice(this.referralSources.length - 1, 0, {
+            id: newId,
+            name: this.formData.referralName
+          });
+          this.formData.referral = newId;
+          this.formData.referralName = '';
+          this.formData.referralEmail = '';
+          this.formData.referralPhone = '';
+        },
+        updateRelativeFields() {
+          if (this.sameAsStudent) {
+            this.formData.guardianName = this.formData.fullName;
+            this.formData.guardianEmail = this.formData.email;
+            this.formData.guardianPhone = this.formData.phone;
+          } else {
+            this.formData.guardianName = '';
+            this.formData.guardianEmail = '';
+            this.formData.guardianPhone = '';
+          }
+        }
+      }">
+    <h1 class="text-2xl font-bold mb-6 text-gray-900">New Enrollment Information</h1>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold flex items-center text-gray-800 mb-4">
+        <svg class="w-5 h-5 mr-2 text-gray-600" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round"
+             d="M5.121 17.804A13.937 13.937 0 0112 15c2.21 0 4.29.534 6.121 1.475M15 10a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+        Customer Information
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-medium mb-1 text-gray-700">Full Name</label>
+          <input type="text" x-model="formData.fullName"
+                 @input="if(sameAsStudent) updateRelativeFields()"
+                 placeholder="Enter full name"
+                 class="w-full border border-gray-300 rounded-md px-4 py-2"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1 text-gray-700">Email Address</label>
+          <input type="email" x-model="formData.email"
+                 @input="if(sameAsStudent) updateRelativeFields()"
+                 placeholder="Enter email address"
+                 class="w-full border border-gray-300 rounded-md px-4 py-2"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1 text-gray-700">Phone Number</label>
+          <input type="tel" x-model="formData.phone"
+                 @input="if(sameAsStudent) updateRelativeFields()"
+                 placeholder="Enter phone number"
+                 class="w-full border border-gray-300 rounded-md px-4 py-2"/>
+        </div>
+        <div>
+          <div class="flex justify-between items-center">
+            <h2 class="text-xl font-semibold flex items-center text-gray-800">
+              <svg class="w-5 h-5 mr-2 text-gray-600" fill="none" stroke="currentColor" stroke-width="2"
+                   viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round"
+                   d="M16 7a4 4 0 00-8 0v4H5a1 1 0 000 2h2v4a2 2 0 002 2h6a2 2 0 002-2v-4h2a1 1 0 000-2h-2V7z"/></svg>
+              Relative Information
+            </h2>
+            <label class="text-sm font-medium text-gray-600 flex items-center space-x-2">
+              <input type="checkbox" x-model="sameAsStudent" @change="updateRelativeFields()" class="h-4 w-4"/>
+              <span>Same as Student</span>
+            </label>
+          </div>
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium mb-1 text-gray-700">Name</label>
+              <input type="text" x-model="formData.guardianName" :disabled="sameAsStudent"
+                     placeholder="Enter guardian name"
+                     class="w-full border border-gray-300 rounded-md px-4 py-2"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1 text-gray-700">Email</label>
+              <input type="email" x-model="formData.guardianEmail" :disabled="sameAsStudent"
+                     placeholder="Enter guardian email"
+                     class="w-full border border-gray-300 rounded-md px-4 py-2"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1 text-gray-700">Phone</label>
+              <input type="tel" x-model="formData.guardianPhone" :disabled="sameAsStudent"
+                     placeholder="Enter guardian phone"
+                     class="w-full border border-gray-300 rounded-md px-4 py-2"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold flex items-center text-gray-800 mb-4">
+        <svg class="w-5 h-5 mr-2 text-gray-600" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round"
+             d="M8 7V3m8 4V3m-9 4h10M5 11h14M5 15h14M5 19h14"/></svg>
+        Referral Information
+      </h2>
+      <div class="mb-4">
+        <label class="block text-sm font-medium mb-1 text-gray-700">Select Referral</label>
+        <select x-model="formData.referral"
+                class="w-full border border-gray-300 rounded-md px-4 py-2">
+          <option value="" disabled>Select a referral</option>
+          <template x-for="source in referralSources" :key="source.id">
+            <option :value="source.id" x-text="source.name"></option>
+          </template>
+        </select>
+      </div>
+
+      <div x-show="newReferral" class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-gray-50 p-4 rounded-md border">
+        <div>
+          <label class="block text-sm font-medium mb-1 text-gray-700">Referral Name</label>
+          <input type="text" x-model="formData.referralName"
+                 placeholder="Enter referral name"
+                 class="w-full border border-gray-300 rounded-md px-4 py-2"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1 text-gray-700">Referral Email</label>
+          <input type="email" x-model="formData.referralEmail"
+                 placeholder="Enter referral email"
+                 class="w-full border border-gray-300 rounded-md px-4 py-2"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1 text-gray-700">Referral Phone</label>
+          <input type="tel" x-model="formData.referralPhone"
+                 placeholder="Enter referral phone"
+                 class="w-full border border-gray-300 rounded-md px-4 py-2"/>
+        </div>
+        <div class="md:col-span-3 flex justify-end">
+          <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md"
+                  @click="addReferralSource()">
+            Add Referral
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
