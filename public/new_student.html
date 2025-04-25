@@ -412,7 +412,9 @@
                           <option :value="0">No Discount</option>
                           <option :value="item.unitPrice * 0.05">5% Off</option>
                           <option :value="item.unitPrice * 0.1">10% Off</option>
-                          <option :value="item.unitPrice * 0.15">15% Off</option>
+                          <option :value="item.unitPrice * 0.15">
+                            15% Off
+                          </option>
                           <option :value="item.unitPrice * 0.2">20% Off</option>
                         </select>
                       </td>
@@ -444,7 +446,6 @@
                 Select Payment Method
               </h3>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Cash -->
                 <div
                   class="flex items-center border rounded-lg p-4 cursor-pointer hover:border-blue-500"
                   :class="{'border-blue-500': selectedPayment === 'cash'}"
@@ -480,7 +481,6 @@
                   </div>
                 </div>
 
-                <!-- KBZ Pay -->
                 <div
                   class="flex items-center border rounded-lg p-4 cursor-pointer hover:border-blue-500"
                   :class="{'border-blue-500': selectedPayment === 'kbzpay'}"
@@ -501,7 +501,6 @@
                   </div>
                 </div>
 
-                <!-- KBZ iBanking -->
                 <div
                   class="flex items-center border rounded-lg p-4 cursor-pointer hover:border-blue-500"
                   :class="{'border-blue-500': selectedPayment === 'ibanking'}"
@@ -522,8 +521,52 @@
                   </div>
                 </div>
               </div>
+              <div
+                class="mt-6 border rounded-lg p-6"
+                x-show="selectedPayment === 'ibanking'"
+              >
+                <h4 class="text-lg font-semibold mb-4 text-gray-800">
+                  KBZ Bank Account Details
+                </h4>
+                <div class="grid grid-cols-1 gap-y-2">
+                  <div class="grid grid-cols-2 gap-x-4">
+                    <label class="font-medium text-gray-700"
+                      >Account Name:</label
+                    >
+                    <div class="text-gray-900">
+                      NEX Bridge Global group of companies
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-x-4">
+                    <label class="font-medium text-gray-700"
+                      >Account Number:</label
+                    >
+                    <div class="text-gray-900">09234-56789-01234</div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-x-4">
+                    <label class="font-medium text-gray-700">Branch:</label>
+                    <div class="text-gray-900">Yangon Main Branch</div>
+                  </div>
+                  <div class="bg-blue-50 p-3 rounded-lg mt-4">
+                    <label class="font-medium text-blue-700" "
+                      >Please include your name and selected course in the
+                      transfer reference.</label
+                    >
+                  </div>  
+                </div>
+              </div>
 
-              <!-- Print and Cancel Buttons -->
+              <div
+                class="mt-6 rounded-lg p-4 flex justify-center"
+                x-show="selectedPayment === 'kbzpay'"
+              >
+                <img
+                  src="https://retail.nbgsoftware.com/Media.png"
+                  alt="KBZ Pay QR Code"
+                  class="w-64 h-64  "
+                />
+              </div>
+
               <div class="flex justify-end space-x-4 mt-6">
                 <button
                   class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -537,6 +580,8 @@
                 </button>
               </div>
             </div>
+            
+            
           </div>
         </div>
       </div>
