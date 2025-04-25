@@ -5,6 +5,8 @@ import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import User from './models/user.js';
+import Student from './models/student.js';
+
 
 dotenv.config();
 
