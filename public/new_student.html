@@ -410,7 +410,9 @@
                           class="border border-gray-300 rounded px-2 py-1"
                         >
                           <option :value="0">No Discount</option>
+                          <option :value="item.unitPrice * 0.05">5% Off</option>
                           <option :value="item.unitPrice * 0.1">10% Off</option>
+                          <option :value="item.unitPrice * 0.15">15% Off</option>
                           <option :value="item.unitPrice * 0.2">20% Off</option>
                         </select>
                       </td>
@@ -486,7 +488,7 @@
                 >
                   <div class="mr-4">
                     <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/KBZ_Pay_Logo.png/320px-KBZ_Pay_Logo.png"
+                      src="https://retail.nbgsoftware.com/kpay.png"
                       class="h-10"
                       alt="KBZ Pay"
                     />
@@ -507,7 +509,7 @@
                 >
                   <div class="mr-4">
                     <img
-                      src="https://upload.wikimedia.org/wikipedia/en/thumb/6/63/KBZ_Bank_Logo.png/320px-KBZ_Bank_Logo.png"
+                      src="https://retail.nbgsoftware.com/kbzibanking.png"
                       class="h-8"
                       alt="KBZ iBanking"
                     />
