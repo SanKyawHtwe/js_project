@@ -27,6 +27,9 @@ const studentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  referral:{
+    type: String,
+  }
 });
 
 const Student = mongoose.model('Student', studentSchema);
