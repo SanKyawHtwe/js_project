@@ -12,13 +12,14 @@
       <img
         src="https://retail.nbgsoftware.com/logo.png"
         alt="Logo"
-        class="w-22 h-10 mb-6"/>
+        class="w-22 h-10 mb-6"
+      />
       <h1 class="text-3xl font-bold text-gray-900 mb-6">
         New Enrollment Information
       </h1>
-    <div
-      class="w-full max-w-5xl bg-white rounded-xl shadow-xl p-8 space-y-10"
-      x-data="{
+      <div
+        class="w-full max-w-5xl bg-white rounded-xl shadow-xl p-8 space-y-10"
+        x-data="{
         formData: {
           fullName: '', email: '', phone: '',
           guardianName: '', guardianEmail: '', guardianPhone: '',
@@ -64,198 +65,334 @@
           }
         }
       }"
-    >
-      
-      <h1 class="text-2xl font-bold text-gray-900 border-b pb-4">
-        User Information
-      </h1>
+      >
+        <h1 class="text-2xl font-bold text-gray-900 border-b pb-4">
+          User Information
+        </h1>
 
-      <!-- Student Info -->
-      <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
+        <!-- Student Info -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+              <svg
+                class="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                ></path>
+              </svg>
+
+              Student Information
+            </h2>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  x-model="formData.fullName"
+                  @input="if(sameAsStudent) updateRelativeFields()"
+                  placeholder="Enter full name"
+                  class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Email Address</label
+                >
+                <input
+                  type="email"
+                  x-model="formData.email"
+                  @input="if(sameAsStudent) updateRelativeFields()"
+                  placeholder="Enter email"
+                  class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Phone Number</label
+                >
+                <input
+                  type="tel"
+                  x-model="formData.phone"
+                  @input="if(sameAsStudent) updateRelativeFields()"
+                  placeholder="Enter phone number"
+                  class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Relative Info -->
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-xl font-semibold flex items-center gap-2">
+                <svg
+                  class="w-5 h-5 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  ></path>
+                </svg>
+                Relative Information
+              </h2>
+              <label class="flex items-center gap-2 text-sm text-gray-600">
+                <input
+                  type="checkbox"
+                  x-model="sameAsStudent"
+                  @change="updateRelativeFields()"
+                  class="h-4 w-4"
+                />
+                Same as student
+              </label>
+            </div>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Name</label
+                >
+                <input
+                  type="text"
+                  x-model="formData.guardianName"
+                  :disabled="sameAsStudent"
+                  placeholder="Guardian name"
+                  class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  x-model="formData.guardianEmail"
+                  :disabled="sameAsStudent"
+                  placeholder="Guardian email"
+                  class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Phone</label
+                >
+                <input
+                  type="tel"
+                  x-model="formData.guardianPhone"
+                  :disabled="sameAsStudent"
+                  placeholder="Guardian phone"
+                  class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Referral Info -->
+        <section>
           <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-          </svg>
-              
-            Student Information
+            <svg
+              class="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+              ></path>
+            </svg>
+            Referral Information
           </h2>
           <div class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-700"
-                >Full Name</label
+                >Select Referral</label
               >
-              <input
-                type="text"
-                x-model="formData.fullName"
-                @input="if(sameAsStudent) updateRelativeFields()"
-                placeholder="Enter full name"
+              <select
+                x-model="formData.referral"
                 class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
-              />
+              >
+                <option value="" disabled>Select a referral</option>
+                <template x-for="source in referralSources" :key="source.id">
+                  <option :value="source.id" x-text="source.name"></option>
+                </template>
+              </select>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700"
-                >Email Address</label
-              >
-              <input
-                type="email"
-                x-model="formData.email"
-                @input="if(sameAsStudent) updateRelativeFields()"
-                placeholder="Enter email"
-                class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700"
-                >Phone Number</label
-              >
-              <input
-                type="tel"
-                x-model="formData.phone"
-                @input="if(sameAsStudent) updateRelativeFields()"
-                placeholder="Enter phone number"
-                class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
-              />
+
+            <div
+              x-show="newReferral"
+              class="flex flex-col gap-4 bg-gray-50 p-4 rounded-md border"
+            >
+              <div>
+                <label class="block text-sm font-medium mb-1 text-gray-700"
+                  >Referral Name</label
+                >
+                <input
+                  type="text"
+                  x-model="formData.referralName"
+                  placeholder="Enter referral name"
+                  class="w-full border border-gray-300 rounded-md px-4 py-2"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1 text-gray-700"
+                  >Referral Email</label
+                >
+                <input
+                  type="email"
+                  x-model="formData.referralEmail"
+                  placeholder="Enter referral email"
+                  class="w-full border border-gray-300 rounded-md px-4 py-2"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1 text-gray-700"
+                  >Referral Phone</label
+                >
+                <input
+                  type="tel"
+                  x-model="formData.referralPhone"
+                  placeholder="Enter referral phone"
+                  class="w-full border border-gray-300 rounded-md px-4 py-2"
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <!-- Relative Info -->
-        <div>
+        
+      </div>
+      <!-- Course Fees Table Section -->
+      <section class="mt-12" x-data="courseTable()">
+        <h2 class="text-xl font-semibold mb-4 text-gray-900">Select Item</h2>
+        <div class="bg-white p-6 rounded-lg shadow-md">
           <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold flex items-center gap-2">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-            </svg>
-              Relative Information
-            </h2>
-            <label class="flex items-center gap-2 text-sm text-gray-600">
-              <input
-                type="checkbox"
-                x-model="sameAsStudent"
-                @change="updateRelativeFields()"
-                class="h-4 w-4"
-              />
-              Same as student
-            </label>
+            <div>
+              <label class="text-sm font-medium text-gray-700 mr-2">Items per page</label>
+              <select x-model="perPage" class="border border-gray-300 rounded px-2 py-1">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+              </select>
+            </div>
+            <input  
+              type="text"
+              x-model="search"
+              placeholder="Search items..."
+              class="border border-gray-300 rounded px-4 py-2 w-64"
+            />
           </div>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700"
-                >Name</label
-              >
-              <input
-                type="text"
-                x-model="formData.guardianName"
-                :disabled="sameAsStudent"
-                placeholder="Guardian name"
-                class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700"
-                >Email</label
-              >
-              <input
-                type="email"
-                x-model="formData.guardianEmail"
-                :disabled="sameAsStudent"
-                placeholder="Guardian email"
-                class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700"
-                >Phone</label
-              >
-              <input
-                type="tel"
-                x-model="formData.guardianPhone"
-                :disabled="sameAsStudent"
-                placeholder="Guardian phone"
-                class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
-              />
-            </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50 text-left text-sm font-semibold text-gray-700">
+                <tr>
+                  <th class="px-4 py-2">Course Name</th>
+                  <th class="px-4 py-2">Batch</th>
+                  <th class="px-4 py-2">Type</th>
+                  <th class="px-4 py-2">Remark</th>
+                  <th class="px-4 py-2">Fee</th>
+                  <th class="px-4 py-2">Action</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                <template x-for="item in paginatedItems" :key="item.id">
+                  <tr>
+                    <td class="px-4 py-2" x-text="item.name"></td>
+                    <td class="px-4 py-2" x-text="item.batch"></td>
+                    <td class="px-4 py-2" x-text="item.type"></td>
+                    <td class="px-4 py-2" x-text="item.remark"></td>
+                    <td class="px-4 py-2" x-text="item.fee"></td>
+                    <td class="px-4 py-2"><input type="checkbox" /></td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
           </div>
-        </div>
-      </section>
-
-      <!-- Referral Info -->
-      <section>
-        <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-        </svg>
-          Referral Information
-        </h2>
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700"
-              >Select Referral</label
-            >
-            <select
-              x-model="formData.referral"
-              class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2"
-            >
-              <option value="" disabled>Select a referral</option>
-              <template x-for="source in referralSources" :key="source.id">
-                <option :value="source.id" x-text="source.name"></option>
-              </template>
-            </select>
-          </div>
-
-          <div
-            x-show="newReferral"
-            class="flex flex-col gap-4 bg-gray-50 p-4 rounded-md border"
-          >
-            <div>
-              <label class="block text-sm font-medium mb-1 text-gray-700"
-                >Referral Name</label
-              >
-              <input
-                type="text"
-                x-model="formData.referralName"
-                placeholder="Enter referral name"
-                class="w-full border border-gray-300 rounded-md px-4 py-2"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium mb-1 text-gray-700"
-                >Referral Email</label
-              >
-              <input
-                type="email"
-                x-model="formData.referralEmail"
-                placeholder="Enter referral email"
-                class="w-full border border-gray-300 rounded-md px-4 py-2"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium mb-1 text-gray-700"
-                >Referral Phone</label
-              >
-              <input
-                type="tel"
-                x-model="formData.referralPhone"
-                placeholder="Enter referral phone"
-                class="w-full border border-gray-300 rounded-md px-4 py-2"
-              />
-            </div>
-            <!-- <div class="flex justify-end">
-              <button
-                type="button"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md"
-                @click="addReferralSource()"
-              >
-                Add Referral
-              </button>
-            </div> -->
-          </div>
-        </div>
-      </section>
-
       
+          <!-- Pagination -->
+          <div class="flex justify-end items-center mt-4 space-x-2">
+            <button
+              class="px-3 py-1 rounded border"
+              :disabled="currentPage === 1"
+              @click="currentPage--"
+            >
+              Prev
+            </button>
+            <template x-for="page in totalPages" :key="page">
+              <button
+                class="px-3 py-1 rounded border"
+                :class="{ 'bg-blue-500 text-white': page === currentPage }"
+                @click="currentPage = page"
+                x-text="page"
+              ></button>
+            </template>
+            <button
+              class="px-3 py-1 rounded border"
+              :disabled="currentPage === totalPages"
+              @click="currentPage++"
+            >
+              Next
+            </button>
+            
+          </div>
+          <p class="text-sm text-gray-600 mt-2">
+            Showing <span x-text="paginatedItems.length"></span>
+            of <span x-text="filteredItems.length"></span> items
+          </p>
+        </div>
+      </section>
+      
+
     </div>
-  </div>
+    <script>
+      function courseTable() {
+        return {
+          search: '',
+          perPage: 5,
+          currentPage: 1,
+          items: [
+            { id: 1, name: 'Statistics for Machine Learning and AI', batch: 'May 2025', type: 'Fees', remark: '-', fee: '3 Lakh' },
+            { id: 2, name: 'NCC L5', batch: 'May 2025', type: 'Program Fees', remark: '-', fee: '15 Lakh' },
+            { id: 3, name: 'NCC L5', batch: 'May 2025', type: 'Tutions Fees', remark: '-', fee: '55 Lakh' },
+            { id: 4, name: 'NCC L5', batch: 'May 2025', type: 'Exam Fees', remark: '-', fee: '450 Euro' },
+            { id: 5, name: 'NCC L4', batch: 'May 2025', type: 'Program Fees', remark: '-', fee: '10 Lakh' },
+            { id: 6, name: 'NCC L4', batch: 'May 2025', type: 'Tutions Fees', remark: '-', fee: '60 Lakh' },
+            { id: 7, name: 'NCC L4', batch: 'May 2025', type: 'Exam Fees', remark: '-', fee: '350 Euro' },
+            { id: 8, name: 'AI for Education (Students and Lecturers)', batch: 'May 2025', type: 'Fees', remark: '-', fee: '2.5 Lakh' },
+            { id: 9, name: 'Statistics for Machine Learning and AI', batch: 'Feb 2025', type: 'Fees', remark: '-', fee: '3 Lakh' }
+          ],
+          get filteredItems() {
+            return this.items.filter(item =>
+              Object.values(item).some(val =>
+                String(val).toLowerCase().includes(this.search.toLowerCase())
+              )
+            );
+          },
+          get paginatedItems() {
+            const start = (this.currentPage - 1) * this.perPage;
+            return this.filteredItems.slice(start, start + Number(this.perPage));
+          },
+          get totalPages() {
+            return Math.ceil(this.filteredItems.length / this.perPage);
+          }
+        }
+      }
+    </script>
+    
   </body>
 </html>
