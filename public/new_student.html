@@ -274,8 +274,6 @@
             </div>
           </div>
         </section>
-
-        
       </div>
       <!-- Course Fees Table Section -->
       <section class="mt-12" x-data="courseTable()">
@@ -283,14 +281,19 @@
         <div class="bg-white p-6 rounded-lg shadow-md">
           <div class="flex justify-between items-center mb-4">
             <div>
-              <label class="text-sm font-medium text-gray-700 mr-2">Items per page</label>
-              <select x-model="perPage" class="border border-gray-300 rounded px-2 py-1">
+              <label class="text-sm font-medium text-gray-700 mr-2"
+                >Items per page</label
+              >
+              <select
+                x-model="perPage"
+                class="border border-gray-300 rounded px-2 py-1"
+              >
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="25">25</option>
               </select>
             </div>
-            <input  
+            <input
               type="text"
               x-model="search"
               placeholder="Search items..."
@@ -299,7 +302,9 @@
           </div>
           <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50 text-left text-sm font-semibold text-gray-700">
+              <thead
+                class="bg-gray-50 text-left text-sm font-semibold text-gray-700"
+              >
                 <tr>
                   <th class="px-4 py-2">Course Name</th>
                   <th class="px-4 py-2">Batch</th>
@@ -317,13 +322,20 @@
                     <td class="px-4 py-2" x-text="item.type"></td>
                     <td class="px-4 py-2" x-text="item.remark"></td>
                     <td class="px-4 py-2" x-text="item.fee"></td>
-                    <td class="px-4 py-2"><input type="checkbox" /></td>
+                    <td class="px-4 py-2">
+                      <input
+                        type="checkbox"
+                        :value="item"
+                        @change="toggleSelection(item)"
+                        :checked="isSelected(item)"
+                      />
+                    </td>
                   </tr>
                 </template>
               </tbody>
             </table>
           </div>
-      
+
           <!-- Pagination -->
           <div class="flex justify-end items-center mt-4 space-x-2">
             <button
@@ -348,51 +360,176 @@
             >
               Next
             </button>
-            
           </div>
           <p class="text-sm text-gray-600 mt-2">
-            Showing <span x-text="paginatedItems.length"></span>
-            of <span x-text="filteredItems.length"></span> items
+            Showing <span x-text="paginatedItems.length"></span> of
+            <span x-text="filteredItems.length"></span> items
           </p>
         </div>
       </section>
-      
 
+      <div class="mt-8" x-show="selectedItems.length">
+        <h3 class="text-lg font-semibold mb-2 text-gray-800">Invoice Items</h3>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200 text-sm">
+            <thead class="bg-gray-50 text-left font-medium text-gray-700">
+              <tr>
+                <th class="px-4 py-2">Course Name</th>
+                <th class="px-4 py-2">Batch</th>
+                <th class="px-4 py-2">Type</th>
+                <th class="px-4 py-2">Remark</th>
+                <th class="px-4 py-2">Unit Price</th>
+                <th class="px-4 py-2">Discount</th>
+                <th class="px-4 py-2">Price</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <template x-for="item in selectedItems" :key="item.id">
+                <tr>
+                  <td class="px-4 py-2" x-text="item.name"></td>
+                  <td class="px-4 py-2" x-text="item.batch"></td>
+                  <td class="px-4 py-2" x-text="item.type"></td>
+                  <td class="px-4 py-2" x-text="item.remark"></td>
+                  <td
+                    class="px-4 py-2"
+                    x-text="item.unitPrice.toLocaleString()"
+                  ></td>
+                  <td class="px-4 py-2">
+                    <input
+                      type="number"
+                      min="0"
+                      x-model="item.discount"
+                      class="border border-gray-300 rounded px-2 py-1 w-20"
+                    />
+                  </td>
+                  <td
+                    class="px-4 py-2"
+                    x-text="(item.unitPrice - item.discount).toLocaleString()"
+                  ></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-4 text-right text-lg font-semibold text-gray-800">
+          Total: <span x-text="invoiceTotal.toLocaleString()"></span>
+        </div>
+      </div>
     </div>
     <script>
       function courseTable() {
         return {
-          search: '',
+          search: "",
           perPage: 5,
           currentPage: 1,
+          selectedItems: [],
           items: [
-            { id: 1, name: 'Statistics for Machine Learning and AI', batch: 'May 2025', type: 'Fees', remark: '-', fee: '3 Lakh' },
-            { id: 2, name: 'NCC L5', batch: 'May 2025', type: 'Program Fees', remark: '-', fee: '15 Lakh' },
-            { id: 3, name: 'NCC L5', batch: 'May 2025', type: 'Tutions Fees', remark: '-', fee: '55 Lakh' },
-            { id: 4, name: 'NCC L5', batch: 'May 2025', type: 'Exam Fees', remark: '-', fee: '450 Euro' },
-            { id: 5, name: 'NCC L4', batch: 'May 2025', type: 'Program Fees', remark: '-', fee: '10 Lakh' },
-            { id: 6, name: 'NCC L4', batch: 'May 2025', type: 'Tutions Fees', remark: '-', fee: '60 Lakh' },
-            { id: 7, name: 'NCC L4', batch: 'May 2025', type: 'Exam Fees', remark: '-', fee: '350 Euro' },
-            { id: 8, name: 'AI for Education (Students and Lecturers)', batch: 'May 2025', type: 'Fees', remark: '-', fee: '2.5 Lakh' },
-            { id: 9, name: 'Statistics for Machine Learning and AI', batch: 'Feb 2025', type: 'Fees', remark: '-', fee: '3 Lakh' }
+            {
+              id: 1,
+              name: "Statistics for Machine Learning and AI",
+              batch: "May 2025",
+              type: "Fees",
+              remark: "-",
+              fee: "3 Lakh",
+            },
+            {
+              id: 2,
+              name: "NCC L5",
+              batch: "May 2025",
+              type: "Program Fees",
+              remark: "-",
+              fee: "15 Lakh",
+            },
+            {
+              id: 3,
+              name: "NCC L5",
+              batch: "May 2025",
+              type: "Tutions Fees",
+              remark: "-",
+              fee: "55 Lakh",
+            },
+            {
+              id: 4,
+              name: "NCC L5",
+              batch: "May 2025",
+              type: "Exam Fees",
+              remark: "-",
+              fee: "450 Euro",
+            },
+            {
+              id: 5,
+              name: "NCC L4",
+              batch: "May 2025",
+              type: "Program Fees",
+              remark: "-",
+              fee: "10 Lakh",
+            },
+            {
+              id: 6,
+              name: "NCC L4",
+              batch: "May 2025",
+              type: "Tutions Fees",
+              remark: "-",
+              fee: "60 Lakh",
+            },
+            {
+              id: 7,
+              name: "NCC L4",
+              batch: "May 2025",
+              type: "Exam Fees",
+              remark: "-",
+              fee: "350 Euro",
+            },
+            {
+              id: 8,
+              name: "AI for Education (Students and Lecturers)",
+              batch: "May 2025",
+              type: "Fees",
+              remark: "-",
+              fee: "2.5 Lakh",
+            },
+            {
+              id: 9,
+              name: "Statistics for Machine Learning and AI",
+              batch: "Feb 2025",
+              type: "Fees",
+              remark: "-",
+              fee: "3 Lakh",
+            },
           ],
           get filteredItems() {
-            return this.items.filter(item =>
-              Object.values(item).some(val =>
-                String(val).toLowerCase().includes(this.search.toLowerCase())
-              )
+            return this.items.filter((item) =>
+              item.name.toLowerCase().includes(this.search.toLowerCase())
             );
-          },
-          get paginatedItems() {
-            const start = (this.currentPage - 1) * this.perPage;
-            return this.filteredItems.slice(start, start + Number(this.perPage));
           },
           get totalPages() {
             return Math.ceil(this.filteredItems.length / this.perPage);
-          }
-        }
+          },
+          get paginatedItems() {
+            const start = (this.currentPage - 1) * this.perPage;
+            return this.filteredItems.slice(start, start + this.perPage);
+          },
+          isSelected(item) {
+            return this.selectedItems.some((i) => i.id === item.id);
+          },
+          toggleSelection(item) {
+            const index = this.selectedItems.findIndex((i) => i.id === item.id);
+            if (index > -1) {
+              this.selectedItems.splice(index, 1);
+            } else {
+              const unitPrice = this.parseFee(item.fee);
+              this.selectedItems.push({ ...item, unitPrice, discount: 0 });
+            }
+          },
+
+          get invoiceTotal() {
+            return this.selectedItems.reduce((sum, item) => {
+              return sum + (item.unitPrice - (item.discount || 0));
+            }, 0);
+          },
+        };
       }
     </script>
-    
   </body>
 </html>
