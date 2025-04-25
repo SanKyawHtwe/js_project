@@ -27,7 +27,7 @@ const studentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  referral:{
+  referralName:{
     type: String,
   }
 });
