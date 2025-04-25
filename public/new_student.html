@@ -275,145 +275,267 @@
           </div>
         </section>
       </div>
-      <!-- Course Fees Table Section -->
-      <section class="mt-12" x-data="courseTable()">
-        <h2 class="text-xl font-semibold mb-4 text-gray-900">Select Item</h2>
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <div class="flex justify-between items-center mb-4">
-            <div>
-              <label class="text-sm font-medium text-gray-700 mr-2"
-                >Items per page</label
-              >
-              <select
-                x-model="perPage"
-                class="border border-gray-300 rounded px-2 py-1"
-              >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="25">25</option>
-              </select>
+      <div x-data="courseTable()">
+        <!-- Course Fees Table Section -->
+        <section class="mt-12">
+          <h2 class="text-xl font-semibold mb-4 text-gray-900">
+            Invoice Items
+          </h2>
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="flex justify-between items-center mb-4">
+              <div>
+                <label class="text-sm font-medium text-gray-700 mr-2"
+                  >Items per page</label
+                >
+                <select
+                  x-model="perPage"
+                  class="border border-gray-300 rounded px-2 py-1"
+                >
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                </select>
+              </div>
+              <input
+                type="text"
+                x-model="search"
+                placeholder="Search items..."
+                class="border border-gray-300 rounded px-4 py-2 w-64"
+              />
             </div>
-            <input
-              type="text"
-              x-model="search"
-              placeholder="Search items..."
-              class="border border-gray-300 rounded px-4 py-2 w-64"
-            />
-          </div>
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead
-                class="bg-gray-50 text-left text-sm font-semibold text-gray-700"
-              >
-                <tr>
-                  <th class="px-4 py-2">Course Name</th>
-                  <th class="px-4 py-2">Batch</th>
-                  <th class="px-4 py-2">Type</th>
-                  <th class="px-4 py-2">Remark</th>
-                  <th class="px-4 py-2">Fee</th>
-                  <th class="px-4 py-2">Action</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
-                <template x-for="item in paginatedItems" :key="item.id">
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead
+                  class="bg-gray-50 text-left text-sm font-semibold text-gray-700"
+                >
                   <tr>
-                    <td class="px-4 py-2" x-text="item.name"></td>
-                    <td class="px-4 py-2" x-text="item.batch"></td>
-                    <td class="px-4 py-2" x-text="item.type"></td>
-                    <td class="px-4 py-2" x-text="item.remark"></td>
-                    <td class="px-4 py-2" x-text="item.fee"></td>
-                    <td class="px-4 py-2">
-                      <input
-                        type="checkbox"
-                        :value="item"
-                        @change="toggleSelection(item)"
-                        :checked="isSelected(item)"
-                      />
-                    </td>
+                    <th class="px-4 py-2">Course Name</th>
+                    <th class="px-4 py-2">Batch</th>
+                    <th class="px-4 py-2">Type</th>
+                    <th class="px-4 py-2">Remark</th>
+                    <th class="px-4 py-2">Fee</th>
+                    <th class="px-4 py-2">Action</th>
                   </tr>
-                </template>
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                  <template x-for="item in paginatedItems" :key="item.id">
+                    <tr>
+                      <td class="px-4 py-2" x-text="item.name"></td>
+                      <td class="px-4 py-2" x-text="item.batch"></td>
+                      <td class="px-4 py-2" x-text="item.type"></td>
+                      <td class="px-4 py-2" x-text="item.remark"></td>
+                      <td class="px-4 py-2" x-text="item.fee"></td>
+                      <td class="px-4 py-2">
+                        <input
+                          type="checkbox"
+                          :value="item.id"
+                          x-model.number="selectedIds"
+                          @change="updateSelectedItems()"
+                          :checked="selectedIds.includes(item.id)"
+                        />
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
 
-          <!-- Pagination -->
-          <div class="flex justify-end items-center mt-4 space-x-2">
-            <button
-              class="px-3 py-1 rounded border"
-              :disabled="currentPage === 1"
-              @click="currentPage--"
-            >
-              Prev
-            </button>
-            <template x-for="page in totalPages" :key="page">
+            <!-- Pagination -->
+            <div class="flex justify-end items-center mt-4 space-x-2">
               <button
                 class="px-3 py-1 rounded border"
-                :class="{ 'bg-blue-500 text-white': page === currentPage }"
-                @click="currentPage = page"
-                x-text="page"
-              ></button>
-            </template>
-            <button
-              class="px-3 py-1 rounded border"
-              :disabled="currentPage === totalPages"
-              @click="currentPage++"
-            >
-              Next
-            </button>
-          </div>
-          <p class="text-sm text-gray-600 mt-2">
-            Showing <span x-text="paginatedItems.length"></span> of
-            <span x-text="filteredItems.length"></span> items
-          </p>
-        </div>
-      </section>
-
-      <div class="mt-8" x-show="selectedItems.length">
-        <h3 class="text-lg font-semibold mb-2 text-gray-800">Invoice Items</h3>
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200 text-sm">
-            <thead class="bg-gray-50 text-left font-medium text-gray-700">
-              <tr>
-                <th class="px-4 py-2">Course Name</th>
-                <th class="px-4 py-2">Batch</th>
-                <th class="px-4 py-2">Type</th>
-                <th class="px-4 py-2">Remark</th>
-                <th class="px-4 py-2">Unit Price</th>
-                <th class="px-4 py-2">Discount</th>
-                <th class="px-4 py-2">Price</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-              <template x-for="item in selectedItems" :key="item.id">
-                <tr>
-                  <td class="px-4 py-2" x-text="item.name"></td>
-                  <td class="px-4 py-2" x-text="item.batch"></td>
-                  <td class="px-4 py-2" x-text="item.type"></td>
-                  <td class="px-4 py-2" x-text="item.remark"></td>
-                  <td
-                    class="px-4 py-2"
-                    x-text="item.unitPrice.toLocaleString()"
-                  ></td>
-                  <td class="px-4 py-2">
-                    <input
-                      type="number"
-                      min="0"
-                      x-model="item.discount"
-                      class="border border-gray-300 rounded px-2 py-1 w-20"
-                    />
-                  </td>
-                  <td
-                    class="px-4 py-2"
-                    x-text="(item.unitPrice - item.discount).toLocaleString()"
-                  ></td>
-                </tr>
+                :disabled="currentPage === 1"
+                @click="currentPage--"
+              >
+                Prev
+              </button>
+              <template x-for="page in totalPages" :key="page">
+                <button
+                  class="px-3 py-1 rounded border"
+                  :class="{ 'bg-blue-500 text-white': page === currentPage }"
+                  @click="currentPage = page"
+                  x-text="page"
+                ></button>
               </template>
-            </tbody>
-          </table>
-        </div>
+              <button
+                class="px-3 py-1 rounded border"
+                :disabled="currentPage === totalPages"
+                @click="currentPage++"
+              >
+                Next
+              </button>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">
+              Showing <span x-text="paginatedItems.length"></span> of
+              <span x-text="filteredItems.length"></span> items
+            </p>
+          </div>
+        </section>
 
-        <div class="mt-4 text-right text-lg font-semibold text-gray-800">
-          Total: <span x-text="invoiceTotal.toLocaleString()"></span>
+        <!-- Invoice Section -->
+        <div class="mt-12">
+          <h3 class="text-2xl font-semibold mb-6 text-gray-800">
+            Invoice Items
+          </h3>
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200 text-sm">
+                <thead class="bg-gray-50 text-left font-medium text-gray-700">
+                  <tr>
+                    <th class="px-4 py-2">Course Name</th>
+                    <th class="px-4 py-2">Batch</th>
+                    <th class="px-4 py-2">Type</th>
+                    <th class="px-4 py-2">Remark</th>
+                    <th class="px-4 py-2">Unit Price</th>
+                    <th class="px-4 py-2">Discount</th>
+                    <th class="px-4 py-2">Price</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <template x-for="item in selectedItems" :key="item.id">
+                    <tr
+                      x-show="selectedItems.some(selectedItem => selectedItem.id === item.id)"
+                    >
+                      <td class="px-4 py-2" x-text="item.name"></td>
+                      <td class="px-4 py-2" x-text="item.batch"></td>
+                      <td class="px-4 py-2" x-text="item.type"></td>
+                      <td class="px-4 py-2" x-text="item.remark"></td>
+                      <td
+                        class="px-4 py-2"
+                        x-text="`${item.unitPrice.toLocaleString()} ${item.currency}`"
+                      ></td>
+                      <td class="px-4 py-2">
+                        <select
+                          x-model.number="item.discount"
+                          class="border border-gray-300 rounded px-2 py-1"
+                        >
+                          <option :value="0">No Discount</option>
+                          <option :value="item.unitPrice * 0.1">10% Off</option>
+                          <option :value="item.unitPrice * 0.2">20% Off</option>
+                        </select>
+                      </td>
+                      <td class="px-4 py-2 font-semibold text-gray-800">
+                        <span
+                          x-text="(item.unitPrice - item.discount).toLocaleString()"
+                        ></span>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Total Section -->
+            <div class="flex justify-end mt-6">
+              <div class="text-lg font-bold text-gray-800">
+                All Total:
+                <span
+                  class="text-green-600"
+                  x-text="invoiceTotal.toLocaleString()"
+                ></span>
+              </div>
+            </div>
+
+            <!-- Payment Method Section -->
+            <div class="mt-8">
+              <h3 class="text-lg font-semibold mb-4 text-gray-800">
+                Select Payment Method
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Cash -->
+                <div
+                  class="flex items-center border rounded-lg p-4 cursor-pointer hover:border-blue-500"
+                  :class="{'border-blue-500': selectedPayment === 'cash'}"
+                  @click="selectedPayment = 'cash'"
+                >
+                  <div class="mr-4">
+                    <div class="bg-blue-100 p-2 rounded-full">
+                      <svg
+                        class="h-6 w-6 text-blue-500"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 8c-1.105 0-2 .672-2 1.5s.895 1.5 2 1.5 2-.672 2-1.5S13.105 8 12 8z"
+                        />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M19 12v2a3 3 0 01-3 3H8a3 3 0 01-3-3v-2"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="font-semibold">Cash</div>
+                    <div class="text-sm text-gray-500">
+                      Pay with cash in person
+                    </div>
+                  </div>
+                </div>
+
+                <!-- KBZ Pay -->
+                <div
+                  class="flex items-center border rounded-lg p-4 cursor-pointer hover:border-blue-500"
+                  :class="{'border-blue-500': selectedPayment === 'kbzpay'}"
+                  @click="selectedPayment = 'kbzpay'"
+                >
+                  <div class="mr-4">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/KBZ_Pay_Logo.png/320px-KBZ_Pay_Logo.png"
+                      class="h-10"
+                      alt="KBZ Pay"
+                    />
+                  </div>
+                  <div>
+                    <div class="font-semibold">KBZ Pay</div>
+                    <div class="text-sm text-gray-500">
+                      Pay via KBZ Pay mobile
+                    </div>
+                  </div>
+                </div>
+
+                <!-- KBZ iBanking -->
+                <div
+                  class="flex items-center border rounded-lg p-4 cursor-pointer hover:border-blue-500"
+                  :class="{'border-blue-500': selectedPayment === 'ibanking'}"
+                  @click="selectedPayment = 'ibanking'"
+                >
+                  <div class="mr-4">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/en/thumb/6/63/KBZ_Bank_Logo.png/320px-KBZ_Bank_Logo.png"
+                      class="h-8"
+                      alt="KBZ iBanking"
+                    />
+                  </div>
+                  <div>
+                    <div class="font-semibold">KBZ iBanking</div>
+                    <div class="text-sm text-gray-500">
+                      Pay via online banking
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Print and Cancel Buttons -->
+              <div class="flex justify-end space-x-4 mt-6">
+                <button
+                  class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                >
+                  Print Invoice
+                </button>
+                <button
+                  class="px-6 py-2 border rounded-lg text-gray-600 hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -423,7 +545,9 @@
           search: "",
           perPage: 5,
           currentPage: 1,
+          selectedIds: [],
           selectedItems: [],
+          selectedPayment: "cash",
           items: [
             {
               id: 1,
@@ -498,6 +622,16 @@
               fee: "3 Lakh",
             },
           ],
+          parseFee(fee) {
+            const cleanedFee = fee.replace(/[^0-9.a-zA-Z]/g, "").trim();
+            const amountMatch = cleanedFee.match(/(\d+(\.\d+)?)/);
+            const currencyMatch = cleanedFee.match(/([a-zA-Z]+)$/);
+
+            const amount = amountMatch ? parseFloat(amountMatch[1]) : 0;
+            const currency = currencyMatch ? currencyMatch[1] : "Lakh"; // Default to Lakh if no currency found
+
+            return { amount, currency };
+          },
           get filteredItems() {
             return this.items.filter((item) =>
               item.name.toLowerCase().includes(this.search.toLowerCase())
@@ -511,22 +645,45 @@
             return this.filteredItems.slice(start, start + this.perPage);
           },
           isSelected(item) {
-            return this.selectedItems.some((i) => i.id === item.id);
+            return this.selectedIds.includes(item.id);
           },
-          toggleSelection(item) {
-            const index = this.selectedItems.findIndex((i) => i.id === item.id);
-            if (index > -1) {
-              this.selectedItems.splice(index, 1);
-            } else {
-              const unitPrice = this.parseFee(item.fee);
-              this.selectedItems.push({ ...item, unitPrice, discount: 0 });
-            }
+          updateSelectedItems() {
+            this.selectedItems = this.items
+              .filter((item) => this.selectedIds.includes(item.id))
+              .map((item) => {
+                const parsedFee = this.parseFee(item.fee);
+                const existingItem = this.selectedItems.find(
+                  (si) => si.id === item.id
+                );
+                const discount = existingItem ? existingItem.discount : 0;
+                return {
+                  ...item,
+                  unitPrice: parsedFee.amount,
+                  currency: parsedFee.currency,
+                  discount: discount,
+                };
+              });
           },
-
           get invoiceTotal() {
-            return this.selectedItems.reduce((sum, item) => {
-              return sum + (item.unitPrice - (item.discount || 0));
-            }, 0);
+            const totals = {};
+            this.selectedItems.forEach((item) => {
+              const price = item.unitPrice - item.discount;
+              if (totals[item.currency]) {
+                totals[item.currency] += price;
+              } else {
+                totals[item.currency] = price;
+              }
+            });
+
+            let totalString = "";
+            for (const currency in totals) {
+              if (totalString !== "") {
+                totalString += " + ";
+              }
+              totalString += `${totals[currency].toLocaleString()} ${currency}`;
+            }
+
+            return totalString || "0";
           },
         };
       }
