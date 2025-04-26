@@ -11,10 +11,13 @@
     ></script>
   </head>
   <body class="bg-gray-100 p-8">
-    <img
+    <div class="flex justify-between items-center mb-6">
+      <img
         src="https://retail.nbgsoftware.com/logo.png"
         alt="Logo"
-        class="w-22 h-10 mb-6"/>
+        class="w-22 h-10 mb-6"
+      />
+    </div>
     <div class="flex justify-between items-center mb-6">
       <div class="text-2xl font-semibold">Student Management</div>
       <a
@@ -105,6 +108,14 @@
         </div>
       </div>
     </div>
+    <div class="mt-6 flex justify-end">
+      <button
+        @click="logout"
+        class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg"
+      >
+        Log out
+      </button>
+    </div>
 
     <script>
       function studentTable() {
@@ -115,7 +126,7 @@
           currentPage: 1,
 
           async fetchStudents() {
-            const res = await fetch("http://localhost:3000/api/students"); 
+            const res = await fetch("http://localhost:3000/api/students");
             this.students = await res.json();
           },
 
@@ -139,6 +150,14 @@
             return Math.ceil(
               this.filteredStudents().length / this.entriesPerPage
             );
+          },
+          logout() {
+            fetch("http://localhost:3000/logout", {
+              method: "POST",
+              credentials: "include",
+            }).then(() => {
+              window.location.href = "/";
+            });
           },
         };
       }
