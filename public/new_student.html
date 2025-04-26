@@ -570,18 +570,92 @@
               <div class="flex justify-end space-x-4 mt-6">
                 <button
                   class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  @click="printInvoice()"
                 >
-                  Print Invoice
+                  Print Invoice 
                 </button>
                 <button
                   class="px-6 py-2 border rounded-lg text-gray-600 hover:bg-gray-100"
+                  @click="navigateToStudents()"
                 >
                   Cancel
                 </button>
               </div>
             </div>
             
+      <div id="print-invoice-area" class="hidden">
+        <div class="p-8">
+          <h2 class="text-2xl font-bold mb-6 text-gray-800">Invoice</h2>
+      
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <h4 class="text-lg font-semibold mb-2 text-gray-700">Invoice To:</h4>
+              <div x-text="userInfo.name"></div>
+              <div x-text="userInfo.email"></div>
+              <div x-text="userInfo.phone"></div>
+            </div>
+            <div>
+              <h4 class="text-lg font-semibold mb-2 text-gray-700">Invoice Details</h4>
+              <div><strong>Invoice #:</strong> INV-233452</div>
+              <div><strong>Date:</strong> 4/25/2025</div>
+            </div>
+          </div>
+      
+          <h3 class="text-lg font-semibold mb-2 text-gray-700">Invoice Items</h3>
+          <table class="min-w-full divide-y divide-gray-200 text-sm mb-4">
+            <thead class="bg-gray-50 text-left font-medium text-gray-700">
+              <tr>
+                <th class="px-4 py-2">Course Name</th>
+                <th class="px-4 py-2">Batch</th>
+                <th class="px-4 py-2">Type</th>
+                <th class="px-4 py-2">Unit Price</th>
+                <th class="px-4 py-2">Discount</th>
+                <th class="px-4 py-2">Price</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <template x-for="item in selectedItems" :key="item.id">
+                <tr>
+                  <td class="px-4 py-2" x-text="item.name"></td>
+                  <td class="px-4 py-2" x-text="item.batch"></td>
+                  <td class="px-4 py-2" x-text="item.type"></td>
+                  <td class="px-4 py-2" x-text="item.unitPrice.toLocaleString()"></td>
+                  <td class="px-4 py-2" x-text="item.discount.toLocaleString()"></td>
+                  <td
+                    class="px-4 py-2"
+                    x-text="(item.unitPrice - item.discount).toLocaleString()"
+                  ></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <div class="mb-4">
+            <strong>Total Amount:</strong> <span class="text-green-600" x-text="invoiceTotal"></span>
+          </div>
+          <div class="mb-4">
+            <strong>Payment Method:</strong> 
+          </div>
+          <div class="mt-4" x-show="selectedPayment === 'cash'">
+            <h4 class="text-md font-semibold mb-2 text-gray-700">Cash</h4>
             
+          </div>
+      
+          <div class="mt-4" x-show="selectedPayment === 'ibanking'">
+            <h4 class="text-md font-semibold mb-2 text-gray-700">KBZ iBankging</h4>
+            
+          </div>
+          <div class="mt-4" x-show="selectedPayment === 'kbzpay'">
+            <h4 class="text-md font-semibold mb-2 text-gray-700">KBZ Pay</h4>
+          </div>
+      
+          <div class="mt-8 text-sm text-gray-600">
+            <h4 class="font-semibold mb-2">Terms and Conditions:</h4>
+            <ol class="list-decimal list-inside">
+              <li>Full payment is required within 30 days of invoice date.</li>
+              <li>Late payments may incur additional charges.</li>
+              <li>This invoice is valid for 30 days from the date of issue.</li>
+            </ol>
+
           </div>
         </div>
       </div>
@@ -732,8 +806,38 @@
 
             return totalString || "0";
           },
+          navigateToStudents() {
+        window.location.href = 'students.html';
+      },
+
+      printInvoice() {
+        this.printSpecificArea('print-invoice-area');
+      },
+      printSpecificArea(elementId) {
+        const printArea = document.getElementById(elementId);
+        if (printArea) {
+          const originalContents = document.body.innerHTML;
+          document.body.innerHTML = printArea.innerHTML;
+          window.print();
+          document.body.innerHTML = originalContents; // Restore original page
+        }
+      },
         };
       }
     </script>
+    <style>
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        #print-invoice-area {
+          visibility: visible;
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+        }
+      }
+    </style>
   </body>
 </html>
